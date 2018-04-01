@@ -75,14 +75,14 @@ font-family: 'Faster One', cursive;-->
                     <p>
                         <strong>Wins</strong>
                     </p>
-                    <h1 id="winCount">0</h1>
+                    <h1 id="winCount">1000</h1>
                     <strong>Current Word</strong>
                     <h1 id="currentWord">_ R _ _ _ _ _ _ _ _ D</h1>
                     <strong>Number of Guesses Remaining</strong>
-                    <h1 id="remainingChances">12</h1>
+                    <h1 id="remainingChances">1000</h1>
                     <strong>Letters already guessed</strong>
                     <p>
-                        <h1 id="usedLetters">R S T L N E</h1>
+                    <h1 id="usedLetters">R S T L N E</h1>
 
                 </div>
             </div>
@@ -92,8 +92,8 @@ font-family: 'Faster One', cursive;-->
     <script language="javascript"> 
         // Global variables
         var userInput;
-        var guessesRemaining = 99;
-        var wins = 1;
+        var guessesRemaining = 12;
+        var wins = 0;
         var lettersGuessed = [];
         var answerWord =[];
         var bones = ["nasal", "lacrimal", "maxiallary", "zygomatic", "temporal", "palatine", "parietal", "femur", "malleus", "incus", "stapes", "tibia", "funny"];
@@ -116,16 +116,21 @@ font-family: 'Faster One', cursive;-->
             console.log("Wins:", wins);
             console.log("Answer Word:", answerWord.length);
             console.log("Answer Word contents", answerWord);
-            for (var i = 0; i < randomWord.length; i++) {
-            console.log("Answer Word:", i, " ", answerWord[i]);
-            }
+           // for (var i = 0; i < randomWord.length; i++) {
+           // console.log("Answer Word:", i, " ", answerWord[i]);
+           // }
 
             document.getElementById("winCount").innerHTML = wins;
+
+           //for (var i = 0; i < randomWord.length; i++) {
+           // document.getElementById("currentWord").innerHTML += answerWord[i];
+          // }
             document.getElementById("currentWord").innerHTML = answerWord;
 
 
             document.getElementById("remainingChances").innerHTML=guessesRemaining;
 
+            document.getElementById("usedLetters").innerHTML = lettersGuessed;
 
             /*
             Main code will be here.
@@ -149,7 +154,7 @@ font-family: 'Faster One', cursive;-->
             6) Function to check if user input is a letter
             */
 
-
+        
 
 
 
