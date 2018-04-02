@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -94,23 +95,18 @@ font-family: 'Faster One', cursive;-->
         </div>
     </div>
     <script language="javascript"> 
-
-
         // Global variables
         var userInput;
         var guessesRemaining = 12;
         var wins = 0;
         var lettersGuessed = [];
         var answerWord = [];
-        var s;
         var bones = ["nasal", "lacrimal", "maxiallary", "zygomatic", "temporal", "palatine", "parietal", "femur", "malleus", "incus", "stapes", "tibia", "funny"];
         var randomWord = bones[Math.floor(Math.random() * bones.length)];
         var answerWord = [];
         for (var i = 0; i < randomWord.length; i++) {
             answerWord[i] = "_";
         }
-        answerWord = answerWord.join(" ");
-
 
         // Next, we give JavaScript a function to execute when onkeyup event fires.
         // Start the game
@@ -139,33 +135,35 @@ font-family: 'Faster One', cursive;-->
 
             document.getElementById("usedLetters").innerHTML = lettersGuessed;
 
-            /*
-            Main code will be here.
-            This is a word guess game writting in HTML, CSS, JavaScript, and Bootstrap
-            There will be several other variables that we need to declare.
-            Variables that need to be declared.
-            1) The will be an array of length 50 containing the names of all the state capitals
-            of the USA. Possible to make it an object to contain additional information about
-            the state.
-            2) A listener, to start the game.
-            3) An input of what the user has entered. May be able to resuse the listner.
-            4) An array to contain what letters the user already has entered.
-            5) A counter to minus minus with each unsuccessful guess.
-  
-            Functions 
-            1) One can include a check to see if the letter chosen is in the guess
-            2) Function to re-write the puzzle section
-            3) Function to pop the letters used 
-            4) Function to minus the counter
-            5) Function to move all to lower case
-            6) Function to check if user input is a letter
-            */
+
+                /*
+                Main code will be here.
+                This is a word guess game writting in HTML, CSS, JavaScript, and Bootstrap
+                There will be several other variables that we need to declare.
+                Variables that need to be declared.
+                1) The will be an array of length 50 containing the names of all the state capitals
+                of the USA. Possible to make it an object to contain additional information about
+                the state.
+                2) A listener, to start the game.
+                3) An input of what the user has entered. May be able to resuse the listner.
+                4) An array to contain what letters the user already has entered.
+                5) A counter to minus minus with each unsuccessful guess.
+      
+                Functions 
+                1) One can include a check to see if the letter chosen is in the guess
+                2) Function to re-write the puzzle section
+                3) Function to pop the letters used 
+                4) Function to minus the counter
+                5) Function to move all to lower case
+                6) Function to check if user input is a letter
+                */
 
 
 
 
 
-        } //End the Game
+            
+            } //End the Game
 
 
 
