@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>About me</title>
+    <title>Word Guessing Game</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -23,7 +23,7 @@ font-family: 'Faster One', cursive;-->
 
     .jumbotron h1 {
         font-family: 'Faster One', cursive;
-        font-size: 50px;
+        font-size: 75px;
     }
 
     .gamecontent {
@@ -33,9 +33,19 @@ font-family: 'Faster One', cursive;-->
     .bodycontent {
         font-family: 'Faster One', cursive;
     }
+
+    .content{
+        background-image: url("http://moziru.com/images/drawn-sleleton-human-skeleton-8.jpg");
+    }
+    body{
+        background-image: url("http://moziru.com/images/drawn-sleleton-human-skeleton-8.jpg"); 
+        background-repeat: repeat;
+        
+    }
+    }
 </style>
 
-<body onload="startUp()">
+<body onload="resetGame();">
 
     <!--Begin the main content of the page -->
     <div id="content">
@@ -73,20 +83,20 @@ font-family: 'Faster One', cursive;-->
                     <!--Make this pretty later with CSS 
                         Mock up what you want to be printed in this section.
                         Test to see if JS overides the default values-->
-                    <p id="startMsg">
-                        <strong>Press any key to get started</strong>
-                    </p>
+                    <h2 id="startMsg">
+                        <strong>Press any letter to play.</strong>
+                    </h2>
                     <p>
                         <strong>Wins</strong>
                     </p>
-                    <h1 id="winCount">NOT STARTED</h1>
+                    <h1 id="winCount"></h1>
                     <strong>Current Word</strong>
-                    <h1 id="currentWord">_ R _ _ _ _ _ _ _ _ D</h1>
+                    <h1 id="currentWord"></h1>
                     <strong>Number of Guesses Remaining</strong>
-                    <h1 id="remainingChances">1000</h1>
+                    <h1 id="remainingChances"></h1>
                     <strong>Letters already guessed</strong>
                     <p>
-                        <h1 id="usedLetters">R S T L N E</h1>
+                        <h1 id="usedLetters"></h1>
 
                 </div>
             </div>
@@ -95,123 +105,129 @@ font-family: 'Faster One', cursive;-->
     </div>
     <script language="javascript"> 
         // Global variables
-        var userInput;
-        document.onkeyup = function (event) {
-            userInput = event.key;
-        }
-        var randomWordArr = ["nasal", "lacrimal", "maxiallary", "zygomatic", "temporal", "palatine", "parietal", "femur", "malleus", "incus", "stapes", "tibia", "funny"];
-        var randomWord = randomWordArr[Math.floor(Math.random() * randomWordArr.length)];
-        var strResponse;
-        var count = 0;
-        var wins = 0;
-        var guessesRemaining = 12;
-        var answerArray = [];
-        var usedLetters = [];
-        function startUp() {
-            for (var i = 0; i < randomWord.length; i++) {
-                answerArray[i] = "_";
+        var wordBank = ["nasal", 
+                        "lacrimal", 
+                        "maxiallary", 
+                        "zygomatic", 
+                        "temporal", 
+                        "palatine", 
+                        "parietal", 
+                        "femur", 
+                        "malleus", 
+                        "incus", 
+                        "stapes", 
+                        "tibia", 
+                        "ulna",
+                        "radius",
+                        "humerus",
+                        "mandible",
+                        "sacrum",
+                        "phalanges",
+                        "metacarpals",
+                        "funny"];
+        const maxTries = 10;
+        var guessedLetters = [];
+        var currentWordIndex;
+        var guessingWord = [];
+        var remainingGuesses = 0;       // Lives
+        var hasFinished = false;        // Flag    
+        var wins = 0;                   // Set Wins to Zero
+
+        // This function is needed upon start of the game and upon either meeting a Game Win or Game Lose condition
+        function resetGame() {
+            remainingGuesses = maxTries;
+            document.getElementById("startMsg").innerText = "Press any letter to play.";
+            currentWordIndex = Math.floor(Math.random() * (wordBank.length));
+            guessedLetters = [];
+            guessingWord = [];
+            for (var i = 0; i < wordBank[currentWordIndex].length; i++) {
+                guessingWord.push("_");
+            }
+            updateGameContent();
+        };
+
+
+        function updateGameContent() {
+
+            document.getElementById("winCount").innerText = wins;
+            var guessingWordText = "";
+            for (var i = 0; i < guessingWord.length; i++) {
+                guessingWordText += guessingWord[i];
             }
 
-           // answerArray = answerArray.join(" ");
-            document.getElementById("currentWord").innerHTML = answerArray;
-            document.getElementById("winCount").innerHTML = wins;
-            document.getElementById("remainingChances").innerHTML = guessesRemaining;
+            console.log("CurrentWord:", guessingWordText);
+            console.log("GuessingWord:", guessingWord);
+            console.log("CurrentWordIndex:", currentWordIndex);
+            console.log("Bone:", wordBank[currentWordIndex]);
+            document.getElementById("currentWord").innerText = guessingWordText;
+            document.getElementById("remainingChances").innerText = remainingGuesses;
+            document.getElementById("usedLetters").innerText = guessedLetters;
+        };
+
+        function evaluateGuess(letter) {
+            // Array to store positions of letters in string
+            var positions = [];
+            console.log("Current Word Index :", currentWordIndex);
+            // Loop through word finding all instances of guessed letter, store the indicies in an array.
+            for (var i = 0; i < wordBank[currentWordIndex].length; i++) {
+                if (wordBank[currentWordIndex][i] === letter) {
+                    positions.push(i);
+                }
+            }
+
+            if (positions.length <= 0) {
+                remainingGuesses--;
+            } else {
+                for (var i = 0; i < positions.length; i++) {
+                    guessingWord[positions[i]] = letter;
+                }
+            }
+        };
+
+        function checkWin() {
+            if (guessingWord.indexOf("_") === -1) {
+                wins++;
+                hasFinished = true;
+                document.getElementById("startMsg").innerText = "Congratulations!";
+            }
+        };
 
 
-            console.log("Length of our randomWordArr:", randomWordArr.length);
-            console.log("Word to guess: ", randomWord);
-            console.log("Word masked: ", answerArray);
-
+        function checkLoss() {
+            if (remainingGuesses <= 0) {
+                hasFinished = true;
+                document.getElementById("startMsg").innerText = "Sorry you lose!";
+            }
         }
 
-        function letterPress()
-        {
-           for (var i = 0; i < randomWord.length; i++)
-           {
-               if (randomWord[i] === userInput)
-               {
-                   //strResponse+=userInput;
-                   answerArray[i] = userInput;
-                   //answerArray[i] = str.replace(userInput);
-               }
-               else
-               {
-               }   
-                  
-           }               
-           guessesRemaining = guessesRemaining - 1;
-           document.getElementById("remainingChances").innerHTML = guessesRemaining; 
-           count++;
-           usedLetters.push(userInput);
-           document.getElementById("currentWord").innerHTML = answerArray;
-           document.getElementById("usedLetters").innerHTML = usedLetters;
-           console.log("Type of Answer array", typeof answerArray);
-        }//End function letterPress
+        // Makes a guess
+        function letterPress(letter) {
+            if (remainingGuesses > 0) {
+                // Make sure we didn't use this letter yet
+                if (guessedLetters.indexOf(letter) === -1) {
+                    guessedLetters.push(letter);
+                    evaluateGuess(letter);
+                }
+            }
 
+        };
 
-
-        document.onkeyup = function (event) {
-            userInput = event.key;
-            letterPress();
-        }
-
-        // Next, we give JavaScript a function to execute when onkeyup event fires.
-        // Start the game
-    /*    document.onkeyup = function (event) {
-            userInput = event.key;
-
-            //var x = document.getElementById("startMsg");
-            //x.style.display = "none";
-            console.log("UserInput:", userInput);
-            console.log("Array length", boneWordBank.length);
-            console.log("Bone:", randomWord);
-            console.log("Wins:", wins);
-            console.log("Answer Word:", answerWord.length);
-            console.log("Answer Word contents", answerWord)
-
-            document.getElementById("winCount").innerHTML = wins;
-            document.getElementById("currentWord").innerHTML = answerWord;
-            document.getElementById("remainingChances").innerHTML = guessesRemaining;
-            document.getElementById("usedLetters").innerHTML = lettersGuessed;
-            
-            for (var i = 0; i < randomWord.length; i++)
-{
-    if (randomWord[i] ===userInput){
-        answerWord[i] = userInput;
-    }
-}
-    count++;
-            /*
-            Main code will be here.
-            This is a word guess game writting in HTML, CSS, JavaScript, and Bootstrap
-            There will be several other variables that we need to declare.
-            Variables that need to be declared.
-            1) The will be an array of length 50 containing the names of all the state capitals
-            of the USA. Possible to make it an object to contain additional information about
-            the state.
-            2) A listener, to start the game.
-            3) An input of what the user has entered. May be able to resuse the listner.
-            4) An array to contain what letters the user already has entered.
-            5) A counter to minus minus with each unsuccessful guess.
-  
-            Functions 
-            1) One can include a check to see if the letter chosen is in the guess
-            2) Function to re-write the puzzle section
-            3) Function to pop the letters used 
-            4) Function to minus the counter
-            5) Function to move all to lower case
-            6) Function to check if user input is a letter
-           
-
-
-
-
-
-        } //End the Game */
-
-
-
-    </script>
+        // Event listener
+        document.onkeydown = function (event) {
+            // If we finished a game, dump one keystroke and reset.
+            if (hasFinished) {
+                resetGame();
+                hasFinished = false;
+            } else {
+                // Check to make sure a-z was pressed.
+                if (event.keyCode >= 65 && event.keyCode <= 90) {
+                    letterPress(event.key.toLowerCase());
+                    updateGameContent();
+                    checkWin();
+                    checkLoss();
+                }
+            }
+        };    </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
