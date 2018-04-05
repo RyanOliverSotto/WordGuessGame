@@ -17,6 +17,9 @@ font-family: 'Rubik Mono One', sans-serif;
 font-family: 'Faster One', cursive;-->
 </head>
 <style>
+    .content {
+        background-clip: white;
+    }
 
     .jumbotron h1 {
         font-family: 'Faster One', cursive;
@@ -41,7 +44,7 @@ font-family: 'Faster One', cursive;-->
     }
     
     header p {
-        background-color: burlywood;
+        background-color: gainsboro;
         border-style: solid;
     }
 </style>
@@ -63,18 +66,27 @@ font-family: 'Faster One', cursive;-->
         <div class="container" id="bodyContent">
             <div class="row">
                 <div class="col-sm-6" id="infocontent">
-                
-
-                    <div>
-                        <img src="https://i.pinimg.com/564x/ac/5f/c5/ac5fc5b719e6725d8fcdf75ca1ef569d.jpg" class="img-responsive" alt="Skeleton"/>
-                    </div>
-                    
+                    <p>
+                        The human skeleton is the internal framework of the body. It is composed of around 270 bones at birth – this total decreases
+                        to around 206 bones by adulthood after some bones get fused together. The bone mass in the skeleton
+                        reaches maximum density around age 21. The human skeleton can be divided into the axial skeleton
+                        and the appendicular skeleton. The axial skeleton is formed by the vertebral column, the rib cage,
+                        the skull and other associated bones. The appendicular skeleton, which is attached to the axial skeleton,
+                        is formed by the shoulder girdle, the pelvic girdle and the bones of the upper and lower limbs. The
+                        human skeleton performs six major functions; support, movement, protection, production of blood cells,
+                        storage of minerals, and endocrine regulation. The human skeleton is not as sexually dimorphic as
+                        that of many other primate species, but subtle differences between sexes in the morphology of the
+                        skull, dentition, long bones, and pelvis exist. In general, female skeletal elements tend to be smaller
+                        and less robust than corresponding male elements within a given population. The human female pelvis
+                        is also different from that of males in order to facilitate childbirth. Unlike most primates, human
+                        males do not have penile bones.
+                    </p>
 
                 </div>
                 <div class="col-sm-6" id="gamecontent">
                     <!--Make this pretty later with CSS 
-                                        Mock up what you want to be printed in this section.
-                                        Test to see if JS overides the default values-->
+                        Mock up what you want to be printed in this section.
+                        Test to see if JS overides the default values-->
                     <h2 id="startMsg">
                         <strong>Press any letter to play.</strong>
                     </h2>
@@ -82,9 +94,6 @@ font-family: 'Faster One', cursive;-->
                         <strong>Wins</strong>
                     </p>
                     <h1 id="winCount"></h1>
-                    <strong>Losses</strong>
-                    </p>
-                    <h1 id="lossCount"></h1>
                     <strong>Current Word</strong>
                     <h1 id="currentWord"></h1>
                     <strong>Number of Guesses Remaining</strong>
@@ -92,9 +101,9 @@ font-family: 'Faster One', cursive;-->
                     <strong>Letters already guessed</strong>
                     <p>
                         <h1 id="usedLetters"></h1>
-                
+
                 </div>
-                </div>
+            </div>
             <!--End the main content -->
         </div>
     </div>
@@ -136,7 +145,7 @@ font-family: 'Faster One', cursive;-->
                         "ulna",
                         "radius",
                         "humerus",
-                        "mandible",
+                        "mandible",B
                         "sacrum",
                         "phalanges",
                         "metacarpals",
@@ -149,7 +158,6 @@ font-family: 'Faster One', cursive;-->
         let remainingGuesses = 0;       // Lives
         let hasFinished = false;        // Flag    
         let wins = 0;                   // Set Wins to Zero
-        let losses = 0;                 // Set Losses to Zero
 
         // This function is needed upon start of the game and upon either meeting a Game Win or Game Lose condition
         function resetGame() {
@@ -168,7 +176,6 @@ font-family: 'Faster One', cursive;-->
         function updateGameContent() {
 
             document.getElementById("winCount").innerText = wins;
-            document.getElementById("lossCount").innerText = losses;
             let guessingWordText = "";
             for (let i = 0; i < guessingWord.length; i++) {
                 guessingWordText += guessingWord[i];
@@ -219,7 +226,6 @@ font-family: 'Faster One', cursive;-->
         function checkLoss() {
             if (remainingGuesses <= 0) {
                 hasFinished = true;
-                losses++;
                 document.getElementById("startMsg").innerText = "Sorry you lose!";
             }
         }
